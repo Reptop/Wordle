@@ -12,7 +12,8 @@ int main()
     string blank;
     int tries = 0;
 
-    vector<string> words{
+    vector<string> words
+    {
         "hello",
         "thing",
         "whale",
