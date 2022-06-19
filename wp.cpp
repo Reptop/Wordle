@@ -3,26 +3,77 @@
 #include <stdio.h>
 using namespace std;
 
+void title()
+{
+   cout << R"(
+ _       ______  ____  ____  __    ______
+| |     / / __ \/ __ \/ __ \/ /   / ____/
+| | /| / / / / / /_/ / / / / /   / __/   
+| |/ |/ / /_/ / _, _/ /_/ / /___/ /___   
+|__/|__/\____/_/ |_/_____/_____/______    
+)" << '\n';
+
+}
+
 int main()
 {
 
     srand(time(NULL));
 
-    bool run = true;
-    string blank;
-    int tries = 0;
-
-    vector<string> words
-    {
+    vector<string> words{
         "hello",
         "thing",
         "whale",
         "soare",
         "level",
         "gates",
+        "abaca",
+        "aback",
+        "abada",
+        "abaft",
+        "aband",
+        "abase",
+        "abash",
+        /*abate
+        abbey
+        abbot
+        abdal
+        abeam
+        abear
+        abele
+        aberr
+        abhal
+        abhor
+        abide
+        abies
+        abiko
+        abime
+        abler
+        abnet
+        abode
+        aboma
+        aboon
+        abord
+        abort
+        about
+        above
+        abray
+        abrus
+        absis
+        abuja
+        abuna
+        abuse
+        abuzz
+        abyme
+        abysm
+        abyss
+*/
     };
 
     string answer;
+    string blank;
+    int tries = 0;
+    bool run = true; 
     int num = rand() % words.size();
 
     for (std::vector<string>::size_type i = 0; i != words.size(); i++)
@@ -37,8 +88,11 @@ int main()
 
     cout << "This is a wordle clone" << endl;
 
+    title();
+
     while (run && tries <= 5)
     {
+
         // formatting shit
         cout << "\n";
         cout << endl;
@@ -77,6 +131,9 @@ int main()
                 {
                     ++correct;
                     cout << answer[i];
+                }
+                else if ("if ") {
+
                 }
                 else
                 {
