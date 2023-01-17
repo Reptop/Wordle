@@ -25,7 +25,9 @@ using namespace std;
 
 
 string Generate_Word(vector<string> *words);
-void Game_Logic(string chosenWord); 
+void Game_Logic(string chosenWord);
+bool inGreen(vector<char> Green, char letter);
+bool alreadyThere(vector<char> Yellow, vector<char> Blue, char letter);
 
 
 int main() {
@@ -55,6 +57,25 @@ string Generate_Word(vector<string> *words) {
   return chosenWord;
 }
 
+bool alreadyThere(vector<char> Yellow, vector<char> Green, char letter) {
+
+  for (auto i : Yellow) {
+    if (i == letter) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool inGreen(vector<char> Green, char letter) {
+  for (auto i : Green) {
+    if (i == letter) {
+      return true;
+    }
+  }
+  return false;
+}
 
 void Game_Logic(string chosenWord) {
   string input;
@@ -62,6 +83,7 @@ void Game_Logic(string chosenWord) {
 
   vector<char> Green;
   vector<char> Yellow;
+  vector<char> Black; 
 
   cout << "Current Word Status..." << endl;  
 
@@ -73,45 +95,63 @@ void Game_Logic(string chosenWord) {
   cout << "\n";
 
 while (run) {
-
+  
+  cout << endl;
   cout << GREEN << "Enter Word: ";
   cin >> input;
+  cin.clear();
+  cin.ignore(100000, '\n');
 
   if (input.length() > 5 || input.length() < 5) {
     cout << "Your input should be 5 letters long." << endl;
   }
   else {
-    cin.clear();
-    cin.ignore(100000, '\n');
-
     for (int i = 0; i < chosenWord.length(); ++i) {
       cout << "__ ";
     }
 
-    for (int i = 0; i < input.length(); ++i) {
-      for (int j = i; j < chosenWord.length(); ++j) {
-        if (input[i] == chosenWord[j]) {
+    for (int i = 0; i <= input.length(); ++i) {
+      for (int j = i; j <= chosenWord.length(); ++j) {
+        if (input[i] == chosenWord[j] && alreadyThere(Yellow, Green, input[i]) == false) {
           Green.push_back(input[i]);
           }
-        else if (input[i] != chosenWord[j] && chosenWord.find(input[i]) != string::npos) {
-          if (count(Yellow.begin(), Yellow.end(), chosenWord[j]))
-            continue; 
-          }
-          else { 
+        else if (input[i] != chosenWord[j] && chosenWord.find(input[i]) != string::npos && alreadyThere(Yellow, Green, input[i]) == false && inGreen(Green, input[i]) == false) {
             Yellow.push_back(input[i]);
-            break; 
-            }
           }
+        else if (input[i] != chosenWord[j] && chosenWord.find(input[i]) != string::npos && alreadyThere(Yellow, Green, input[i]) == true) {
+              continue;
+            }
+        else if (input[i] != chosenWord[j] && chosenWord.find(input[i]) == string::npos && alreadyThere(Yellow, Green, input[i]) == false) {
+          Black.push_back(input[i]);
+          //break;
         }
+      }
+    }
+  }
+      cout << endl;
 
-      //for(std::vector<char>::iterator it = Green.begin(); it != Green.end(); ++it) {
-        //cout << (*it) << " ";
-      //}
+      cout << GREEN << "Green Letters: "; 
+      for(std::vector<char>::iterator it = Green.begin(); it != Green.end(); ++it) {
+        cout << (*it) << " ";
+      }
 
+      cout << endl; 
+      cout << "\n";
+
+      cout << YELLOW << "Yellow Letters: ";
       for(std::vector<char>::iterator it = Yellow.begin(); it != Yellow.end(); ++it) {
         cout << (*it) << " ";
       }
       cout << endl;
+      cout << "\n";
+      
+      cout << BLACK << "Black Letters: ";
+      for(std::vector<char>::iterator it = Black.begin(); it != Black.end(); ++it) {
+        cout << (*it) << " ";
+      }
+
+      Yellow.clear();
+      Green.clear();
+      Black.clear();
     }
   }
-}
