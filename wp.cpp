@@ -3,6 +3,9 @@
 #include <vector>
 #include <stdio.h>
 #include <string>
+#include <time.h>
+
+//These defines are for coloring std::cout
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
 #define RED     "\033[31m"      /* Red */
@@ -28,9 +31,12 @@ string Generate_Word(vector<string> *words);
 void Game_Logic(string chosenWord);
 bool inGreen(vector<char> Green, char letter);
 bool alreadyThere(vector<char> Yellow, vector<char> Blue, char letter);
-
+void titleScreen();
+void updateGUI();
 
 int main() {
+
+  //vector for holding every string  in heap ... tbh this might be bad
   vector<string> *words = new vector<string>();
 
   words->push_back("thing");
@@ -44,6 +50,23 @@ int main() {
 
 
   return 0; 
+}
+
+void titleScreen() {
+
+
+    cout << R"(
+_____/\\\\\\\\\________/\\\\\\\\\\\__________/\\\\\\\\\__/\\\\\\\\\\\__/\\\\\\\\\\\_        
+ ___/\\\\\\\\\\\\\____/\\\/////////\\\_____/\\\////////__\/////\\\///__\/////\\\///__       
+  __/\\\/////////\\\__\//\\\______\///____/\\\/_______________\/\\\_________\/\\\_____      
+   _\/\\\_______\/\\\___\////\\\__________/\\\_________________\/\\\_________\/\\\_____     
+    _\/\\\\\\\\\\\\\\\______\////\\\______\/\\\_________________\/\\\_________\/\\\_____    
+     _\/\\\/////////\\\_________\////\\\___\//\\\________________\/\\\_________\/\\\_____   
+      _\/\\\_______\/\\\__/\\\______\//\\\___\///\\\______________\/\\\_________\/\\\_____  
+       _\/\\\_______\/\\\_\///\\\\\\\\\\\/______\////\\\\\\\\\__/\\\\\\\\\\\__/\\\\\\\\\\\_ 
+        _\///________\///____\///////////___________\/////////__\///////////__\///////////__        
+)" << '\n';
+
 }
 
 string Generate_Word(vector<string> *words) {
@@ -68,6 +91,16 @@ bool alreadyThere(vector<char> Yellow, vector<char> Green, char letter) {
   return false;
 }
 
+bool inBlack(vector<char> Black, char letter) {
+  for (auto i : Black) {
+    if (i == letter) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 bool inGreen(vector<char> Green, char letter) {
   for (auto i : Green) {
     if (i == letter) {
@@ -77,6 +110,12 @@ bool inGreen(vector<char> Green, char letter) {
   return false;
 }
 
+void updateGUI() {
+
+}
+
+
+//main function that runs the entire game
 void Game_Logic(string chosenWord) {
   string input;
   bool run = true;
@@ -123,7 +162,7 @@ while (run) {
             }
         else if (input[i] != chosenWord[j] && chosenWord.find(input[i]) == string::npos && alreadyThere(Yellow, Green, input[i]) == false) {
           Black.push_back(input[i]);
-          //break;
+          break;
         }
       }
     }
